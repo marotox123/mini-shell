@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "echo.h"
 #include "ls.h"
+#include "mkdir.h"
 #include "runelf.h"
 int main(void) {
     uid_t uid = getuid();
@@ -115,7 +116,7 @@ int main(void) {
             }
             break;
         case 7:
-            
+            if (cmd_mkdir(argv) != 1) {}
             break;
         case 8:
             if (chdir("..") != 0) {
