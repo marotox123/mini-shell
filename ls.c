@@ -9,7 +9,7 @@
 #include "ls.h"
 #include "utils.h"
 
-int ls(char **argv) {
+int cmd_ls(char **argv) {
     DIR *d;
     struct dirent *dir;
     if (argv[1] == NULL) {

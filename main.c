@@ -79,7 +79,7 @@ int main(void) {
             break;
 
         case 3: {
-            int wynik = cd(argv);
+            int wynik = cmd_cd(argv);
             if (wynik > 0) {
 
             } else if (wynik == -2) {
@@ -90,7 +90,7 @@ int main(void) {
             break;
         }
         case 4:
-            int ls1 = ls(argv);
+            int ls1 = cmd_ls(argv);
             if (ls1 > 0) {
 
             } else if (ls1 == -2) {
@@ -108,7 +108,7 @@ int main(void) {
             exit(0);
 
         case 6:
-            int wynik = echo(argv);
+            int wynik = cmd_echo(argv);
             if (wynik > 0){
             
             } else if (wynik == -2) {

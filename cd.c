@@ -6,7 +6,7 @@
 #include "cd.h"
 #include "utils.h"
 
-int cd(char **argv) {
+int cmd_cd(char **argv) {
     // Zabezpiecznie jesli nie ma filepathu
     if (argv[1] == NULL) {
         return -2;

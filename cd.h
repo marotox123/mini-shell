@@ -2,6 +2,6 @@
 #define CD_H
 #include <unistd.h>
 
-int cd(char **argv);
+int cmd_cd(char **argv);
 
 #endif

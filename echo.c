@@ -7,7 +7,7 @@
 #include "echo.h"
 #include "utils.h"
 
-int echo(char **argv) {
+int cmd_echo(char **argv) {
     if (argv[1] == NULL) {
         return -2;
     }

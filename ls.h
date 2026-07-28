@@ -2,6 +2,6 @@
 #define LS_H
 #include <unistd.h>
 
-int ls(char **argv);
+int cmd_ls(char **argv);
 
 #endif

@@ -2,6 +2,6 @@
 #define ECHO_H
 #include <unistd.h>
 
-int echo(char **argv);
+int cmd_echo(char **argv);
 
 #endif
