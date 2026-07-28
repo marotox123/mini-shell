@@ -20,8 +20,10 @@ static const char *komendy[] = {
 };
 
 char **ArgumentParser(const char *buffer) {
+    size_t cap = 8; 
     size_t i = 0;
-    char **argv = malloc(sizeof(char*) * 64); // na razie sztywny limit, można zrobić realloc
+    char **argv = malloc(sizeof(char*) * cap); // auto limit
+    if (argv == NULL) return NULL;
     int argc = 0;
     while (buffer[i] != '\0') {
         while (isspace((unsigned char)buffer[i])) {
@@ -34,6 +36,16 @@ char **ArgumentParser(const char *buffer) {
             i++;
         }
         size_t len = i - start;
+        if ((size_t)argc + 1 >= cap) {
+            cap *= 2;
+            char **tmp = realloc(argv, sizeof(char*) * cap);
+            if (tmp == NULL) {
+                argv[argc] = NULL;   // <- domknij listę przed free_argv
+                free_argv(argv);
+                return NULL;
+            }
+            argv = tmp;
+        }
         argv[argc] = malloc(len + 1);
         memcpy(argv[argc], buffer + start, len);
         argv[argc][len] = '\0';
