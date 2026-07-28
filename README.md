@@ -20,6 +20,12 @@ Prosty shell napisany w C — projekt do nauki programowania systemowego w Linuk
 ## Budowanie
 
 ```sh
+make
+```
+
+albo ręcznie, bez Makefile:
+
+```sh
 gcc -Wall -Wextra -o program main.c cd.c echo.c ls.c runelf.c utils.c
 ```
 
