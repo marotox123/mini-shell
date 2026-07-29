@@ -16,7 +16,8 @@ static const char *komendy[] = {
     "exit",
     "echo",
     "mkdir",
-    ".."
+    "..",
+    "touch"
 };
 
 char **ArgumentParser(const char *buffer) {

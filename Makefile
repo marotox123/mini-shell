@@ -2,9 +2,9 @@ CC      := gcc
 CFLAGS  := -Wall -Wextra
 TARGET  := program
 
-SRCS := main.c cd.c echo.c ls.c mkdir.c runelf.c utils.c
+SRCS := main.c cd.c echo.c ls.c mkdir.c touch.c runelf.c utils.c
 OBJS := $(SRCS:.c=.o)
-HDRS := cd.h echo.h ls.h mkdir.h runelf.h utils.h
+HDRS := cd.h echo.h ls.h mkdir.h touch.h runelf.h utils.h
 
 .PHONY: all clean run
 

@@ -11,6 +11,7 @@
 #include "echo.h"
 #include "ls.h"
 #include "mkdir.h"
+#include "touch.h"
 #include "runelf.h"
 int main(void) {
     uid_t uid = getuid();
@@ -123,6 +124,9 @@ int main(void) {
                 perror("chdir failed");
                 break;
             }
+            break;
+        case 9:
+            if (cmd_touch(argv) != 1) {}
             break;
         default:
             break;
