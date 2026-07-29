@@ -21,9 +21,9 @@ int cmd_touch(char **argv) {
             perror("Błąd podczas otwierania pliku");
             return 1; // Zakończenie programu z kodem błędu
         }
+        fclose(fptr);
         i++;
     }
-    fclose(fptr);
     return 1;
      
 }
