@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 #include <stdio.h>
 
 int run_executable(char **argv) {
@@ -16,7 +17,10 @@ int run_executable(char **argv) {
     }
 
     if (pid == 0) {
-        // proces dziecka
+        // proces dziecka - przywracamy domyslna obsluge SIGINT,
+        // odziedziczona po rodzicu (shellu), zeby Ctrl+C przerywalo
+        // uruchomiony program, a nie bylo przez niego ignorowane
+        signal(SIGINT, SIG_DFL);
         execv(argv[0], argv);
         // jeśli execv wraca, to błąd
         perror("execv failed");

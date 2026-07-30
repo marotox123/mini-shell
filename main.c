@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <pwd.h>
 #include <unistd.h>
+#include <signal.h>
 #include <limits.h>
 #include <ctype.h>
 #include "cd.h"
@@ -13,6 +14,15 @@
 #include "mkdir.h"
 #include "touch.h"
 #include "runelf.h"
+
+volatile sig_atomic_t got_sigint = 0;
+
+void handle_ctrl_c(int sig) {
+    (void)sig;
+    write(STDOUT_FILENO, "\n", 1);
+    got_sigint = 1;
+}
+
 int main(void) {
     uid_t uid = getuid();
     struct passwd *pw = getpwuid(uid);
@@ -33,6 +43,11 @@ int main(void) {
         perror("getcwd");
         return 1;
     }
+    struct sigaction sa;
+    sa.sa_handler = handle_ctrl_c;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0; // Brak SA_RESTART - przerwany read() ma zwrocic EINTR
+    sigaction(SIGINT, &sa, NULL);
     while (1) {
        len = 0;
        odswiez_sciezke(&directory);
@@ -52,6 +67,11 @@ int main(void) {
             }   
 
             buf[len++] = (char)ch;
+        }
+        if (got_sigint) {
+            got_sigint = 0;
+            clearerr(stdin); // zdejmujemy flage bledu ustawiona przez przerwany read()
+            continue;        // porzucamy wpisywana linie, nowy prompt
         }
         buf[len] = '\0';
         char **argv = ArgumentParser(buf);
