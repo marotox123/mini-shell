@@ -13,9 +13,12 @@ Prosty shell napisany w C — projekt do nauki programowania systemowego w Linuk
   - `..` — skrót do `cd ..`
   - `ls [ścieżka]` — listowanie zawartości katalogu
   - `echo <argumenty>` — wypisuje argumenty
+  - `mkdir <katalog...>` — tworzenie katalogów
+  - `touch <plik...>` — tworzenie pustych plików
   - `exit` — wyjście z shella
 - Uruchamianie plików wykonywalnych przez `./nazwa_programu` (fork + execv)
-- Dynamicznie rosnący bufor linii wejściowej (bez sztywnego limitu długości polecenia)
+- Dynamicznie rosnący bufor linii wejściowej i tablica argumentów (bez sztywnych limitów)
+- Obsługa `Ctrl+C` (SIGINT) — przerywa tylko wpisywaną linię, nie zabija shella; uruchomiony program dziecko nadal reaguje na `Ctrl+C` normalnie
 
 ## Budowanie
 
@@ -26,7 +29,7 @@ make
 albo ręcznie, bez Makefile:
 
 ```sh
-gcc -Wall -Wextra -o program main.c cd.c echo.c ls.c runelf.c utils.c
+gcc -Wall -Wextra -o program main.c cd.c echo.c ls.c mkdir.c touch.c runelf.c utils.c
 ```
 
 ## Uruchomienie
@@ -40,11 +43,13 @@ gcc -Wall -Wextra -o program main.c cd.c echo.c ls.c runelf.c utils.c
 Każda wbudowana komenda ma własną parę plików `.c`/`.h`:
 
 ```
-main.c      – pętla główna, prompt, dispatch komend
+main.c      – pętla główna, prompt, obsługa SIGINT, dispatch komend
 utils.c/.h  – parser argumentów, pomocnicze funkcje
 cd.c/.h     – komenda cd
 echo.c/.h   – komenda echo
 ls.c/.h     – komenda ls
+mkdir.c/.h  – komenda mkdir
+touch.c/.h  – komenda touch
 runelf.c/.h – uruchamianie zewnętrznych plików wykonywalnych
 ```
 
@@ -52,11 +57,9 @@ runelf.c/.h – uruchamianie zewnętrznych plików wykonywalnych
 
 Projekt powstał w celach edukacyjnych, więc świadomie ma kilka uproszczeń:
 
-- Parser argumentów (`ArgumentParser` w `utils.c`) alokuje tablicę `argv` na sztywno **64 wskaźniki** — polecenie z więcej niż 64 argumentami spowoduje wyjście poza alokowaną pamięć.
 - Brak obsługi cudzysłowów/escapowania — `echo "a b"` zostanie rozbite na dwa argumenty.
 - Brak przeszukiwania `PATH` — programy zewnętrzne trzeba uruchamiać z prefiksem `./`.
 - Brak potoków (`|`) i przekierowań (`>`, `<`).
-- Brak obsługi sygnałów (np. Ctrl+C przerywa cały shell, a nie tylko bieżące polecenie).
 
 ## Licencja
 
